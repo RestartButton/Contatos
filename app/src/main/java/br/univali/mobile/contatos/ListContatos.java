@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 
 public class ListContatos extends Fragment {
     private Button btnAdd = null;
-    private Button btnEdit = null;
+    private DBManager dbManager = null;
+    private ListView lv = null;
 
     public ListContatos() {
         // Required empty public constructor
@@ -26,8 +29,19 @@ public class ListContatos extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_list_contatos, container, false);
+
+        dbManager = new DBManager(getActivity());
+        lv = v.findViewById(R.id.list_contatos);
+        dbManager.getContatos(getActivity(), lv);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //logica a implementar
+            }
+        });
 
         btnAdd = v.findViewById(R.id.btn_list_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -38,14 +52,6 @@ public class ListContatos extends Fragment {
             }
         });
 
-        btnEdit = v.findViewById(R.id.btn_list_edit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(
-                        R.id.main_fragment_container, new EditContato()).commit();
-            }
-        });
 
         return v;
     }
