@@ -60,7 +60,7 @@ public class AddContato extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String contatoName = contatoNameEdt.getText().toString() + contatoLastnameEdt.getText().toString();
+                String contatoName = contatoNameEdt.getText().toString() + " " + contatoLastnameEdt.getText().toString();
                 String contatoType = contatoTypeEdt.getSelectedItem().toString();
                 String contatoPhone = contatoPhoneEdt.getText().toString();
 

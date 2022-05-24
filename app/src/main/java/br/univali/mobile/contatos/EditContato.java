@@ -35,25 +35,34 @@ public class EditContato extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_contato, container, false);
-
-        contatoNameEdt = v.findViewById(R.id.edit_name);
-        contatoLastnameEdt = v.findViewById(R.id.edit_lastname);
-        contatoTypeEdt = v.findViewById(R.id.edit_phone_type);
-        contatoPhoneEdt = v.findViewById(R.id.edit_phone_number);
-
-        contatoName = contatoNameEdt.getText().toString() + contatoLastnameEdt.getText().toString();
-        contatoType = contatoTypeEdt.getSelectedItem().toString();
-        contatoPhone = contatoPhoneEdt.getText().toString();
-
         try {
+
+            Bundle b = getArguments();
+            dbManager = new DBManager(getActivity());
+            String[] c = dbManager.getContatoById(b.getInt("id"));
+
+            contatoNameEdt = v.findViewById(R.id.edit_name);
+            contatoLastnameEdt = v.findViewById(R.id.edit_lastname);
+            contatoTypeEdt = v.findViewById(R.id.edit_phone_type);
+            contatoPhoneEdt = v.findViewById(R.id.edit_phone_number);
+
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                     R.array.type_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             contatoTypeEdt.setAdapter(adapter);
 
-            dbManager = new DBManager(getActivity());
+            contatoNameEdt.setText(c[0].split(" ")[0]);
+            contatoLastnameEdt.setText(c[0].split(" ")[1]);
+            contatoTypeEdt.setSelection(adapter.getPosition(c[1]));
+            contatoPhoneEdt.setText(c[2]);
+
+            contatoName = contatoNameEdt.getText().toString() + " " + contatoLastnameEdt.getText().toString();
+            contatoType = contatoTypeEdt.getSelectedItem().toString();
+            contatoPhone = contatoPhoneEdt.getText().toString();
+
+
+
         } catch (Exception e) {
             Log.e("EditContato", e.getMessage());
         }
@@ -63,7 +72,7 @@ public class EditContato extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String newName = contatoNameEdt.getText().toString();
+                String newName = contatoNameEdt.getText().toString() + " " + contatoLastnameEdt.getText().toString();
                 String newType = contatoTypeEdt.getSelectedItem().toString();
                 String newPhone = contatoPhoneEdt.getText().toString();
 
@@ -96,5 +105,9 @@ public class EditContato extends Fragment {
         });
 
         return v;
+    }
+
+    public void setArguments(Bundle b){
+
     }
 }

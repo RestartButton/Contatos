@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 public class DBManager extends SQLiteOpenHelper {
 
@@ -77,8 +78,23 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void getContatos(Context context, ListView lv) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor data = db.query(TABLE_NAME, new String[]{ID_COL, NAME_COL, TYPE_COL, PHONE_COL}, null, null, null, null, null);
-        int[] to;
+        String[] columns = {ID_COL, NAME_COL, TYPE_COL, PHONE_COL};
+        Cursor data = db.query(TABLE_NAME, columns, null, null, null, null, null);
+        int[] to = {R.id.textViewIdListContato, R.id.textViewNomeListContato, R.id.textViewCelularListContato};
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(context, R.layout.contato_item_list_view, data, columns, to, 0);
+        lv.setAdapter(simpleCursorAdapter);
+        db.close();
+    }
+
+    public String[] getContatoById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {ID_COL, NAME_COL, TYPE_COL, PHONE_COL};
+        Cursor data = db.query(TABLE_NAME, columns, "id = ?", new String[]{String.valueOf(id)}, null, null, null);
+        data.moveToFirst();
+        String[] contato = {data.getString(1), data.getString(2), data.getString(3)};
+        data.close();
+        db.close();
+        return contato;
     }
 
     @Override
