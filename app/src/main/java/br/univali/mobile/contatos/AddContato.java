@@ -9,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 
 public class AddContato extends Fragment {
+    private Button btnSave = null;
+    private Button btnBack = null;
+    private Spinner spinner = null;
 
     public AddContato() {
         // Required empty public constructor
@@ -29,7 +33,7 @@ public class AddContato extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_contato, container, false);
 
-        Spinner spinner  = v.findViewById(R.id.add_phone_type);
+        spinner = v.findViewById(R.id.add_phone_type);
 
         try {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -39,6 +43,24 @@ public class AddContato extends Fragment {
         } catch (Exception e) {
             Log.e("AddContato", e.getMessage());
         }
+
+        btnSave = v.findViewById(R.id.btn_add_save);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(
+                        R.id.main_fragment_container, new ListContatos()).commit();
+            }
+        });
+
+        btnBack = v.findViewById(R.id.btn_add_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(
+                        R.id.main_fragment_container, new ListContatos()).commit();
+            }
+        });
 
         return v;
     }

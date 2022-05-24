@@ -60,13 +60,13 @@
             android:layout_alignParentBottom="true">
 
             <Button
-                android:id="@+id/btn_edit_delete"
+                android:id="@+id/btn_edit_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
                 android:layout_alignParentLeft="true"></Button>
             <Button
-                android:id="@+id/btn_edit_save"
+                android:id="@+id/btn_edit_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
