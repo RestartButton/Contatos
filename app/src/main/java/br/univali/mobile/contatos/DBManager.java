@@ -14,7 +14,7 @@ public class DBManager extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String TABLE_NAME = "contatos";
 
-    private static final String ID_COL = "id";
+    private static final String ID_COL = "_id";
     private static final String NAME_COL = "name";
     private static final String TYPE_COL = "type";
     private static final String PHONE_COL = "phone_number";
@@ -89,7 +89,7 @@ public class DBManager extends SQLiteOpenHelper {
     public String[] getContatoById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {ID_COL, NAME_COL, TYPE_COL, PHONE_COL};
-        Cursor data = db.query(TABLE_NAME, columns, "id = ?", new String[]{String.valueOf(id)}, null, null, null);
+        Cursor data = db.query(TABLE_NAME, columns, ID_COL + " = ?", new String[]{String.valueOf(id)}, null, null, null);
         data.moveToFirst();
         String[] contato = {data.getString(1), data.getString(2), data.getString(3)};
         data.close();
