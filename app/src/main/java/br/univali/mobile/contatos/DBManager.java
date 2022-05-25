@@ -11,7 +11,7 @@ import android.widget.SimpleCursorAdapter;
 public class DBManager extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "contatosdb";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String TABLE_NAME = "contatos";
 
     private static final String ID_COL = "_id";
@@ -27,7 +27,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String query = "CREATE TABLE " + TABLE_NAME + " ("
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT,"
                 + TYPE_COL + " TEXT,"
